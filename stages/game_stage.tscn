@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/background.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/spawner_ground.tscn" type="PackedScene" id=2]
+[ext_resource path="res://script/Camera2D.gd" type="Script" id=3]
+[ext_resource path="res://scenes/bird.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/spawner_pipe.tscn" type="PackedScene" id=5]
+
+[node name="world" type="Node2D"]
+__meta__ = {
+"_edit_horizontal_guides_": [ 255.18 ],
+"_edit_vertical_guides_": [  ]
+}
+
+[node name="background" parent="." instance=ExtResource( 1 )]
+layer = -1
+
+[node name="spawner_ground" parent="." instance=ExtResource( 2 )]
+
+[node name="camera" type="Camera2D" parent="."]
+offset = Vector2( -36, 0 )
+anchor_mode = 0
+current = true
+script = ExtResource( 3 )
+
+[node name="bird" parent="." instance=ExtResource( 4 )]
+position = Vector2( 36, 46.611 )
+gravity_scale = 2.0
+
+[node name="spawner_pipe" parent="." instance=ExtResource( 5 )]
+[connection signal="body_exited" from="bird" to="bird" method="_on_body_exited"]
