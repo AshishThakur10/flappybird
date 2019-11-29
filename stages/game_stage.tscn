@@ -1,10 +1,20 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/background.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/spawner_ground.tscn" type="PackedScene" id=2]
 [ext_resource path="res://script/Camera2D.gd" type="Script" id=3]
 [ext_resource path="res://scenes/bird.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/spawner_pipe.tscn" type="PackedScene" id=5]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Label
+
+func _ready() -> void:
+	game.connect(\"score_changed\",self,\"on_score_changed\")
+	pass
+func on_score_changed():
+	set_text(str(game.score))
+	pass"
 
 [node name="world" type="Node2D"]
 __meta__ = {
@@ -28,4 +38,15 @@ position = Vector2( 36, 46.611 )
 gravity_scale = 2.0
 
 [node name="spawner_pipe" parent="." instance=ExtResource( 5 )]
+
+[node name="hud" type="CanvasLayer" parent="."]
+
+[node name="score" type="Label" parent="hud"]
+anchor_right = 1.0
+margin_top = 10.0
+margin_bottom = 14.0
+text = "0"
+align = 1
+valign = 1
+script = SubResource( 1 )
 [connection signal="body_exited" from="bird" to="bird" method="_on_body_exited"]

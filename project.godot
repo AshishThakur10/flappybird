@@ -24,6 +24,7 @@ config/icon="res://sprites/flappy_bird_icon.png"
 [autoload]
 
 utils="*res://script/utils.gd"
+game="*res://script/game.gd"
 
 [display]
 
@@ -45,3 +46,4 @@ pointing/emulate_touch_from_mouse=true
 [rendering]
 
 quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
