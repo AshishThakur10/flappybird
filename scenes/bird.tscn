@@ -9,7 +9,12 @@
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
 "loop": true,
-"name": "default",
+"name": "flap",
+"speed": 4.13
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "idel",
 "speed": 5.0
 } ]
 
@@ -19,14 +24,14 @@ radius = 6.5
 [node name="bird" type="RigidBody2D"]
 position = Vector2( 36, 63.674 )
 gravity_scale = 7.44
+contacts_reported = 1
+contact_monitor = true
 linear_damp = 0.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="animsprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
+animation = "idel"
 
 [node name="shape" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
