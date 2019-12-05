@@ -12,6 +12,7 @@ func _process(delta: float) -> void:
 
 func _on_coin_body_entered(body: PhysicsBody2D) -> void:
 	if body.is_in_group(game.GROUP_BIRD):
-		game.score +=1     # increase score
+		game.score +=1
+		sounds.find_node("point").play()    # increase score
 		pass
 	pass 
