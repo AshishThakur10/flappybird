@@ -1,12 +1,43 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scenes/background.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/spawner_ground.tscn" type="PackedScene" id=2]
 [ext_resource path="res://script/Camera2D.gd" type="Script" id=3]
 [ext_resource path="res://scenes/bird.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/spawner_pipe.tscn" type="PackedScene" id=5]
+[ext_resource path="res://sprites/label_game_over.png" type="Texture" id=6]
+[ext_resource path="res://sprites/panel_score.png" type="Texture" id=7]
+[ext_resource path="res://fonts/font_score.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://sprites/button_play_normal.png" type="Texture" id=9]
+[ext_resource path="res://sprites/button_play_pressed.png" type="Texture" id=10]
+[ext_resource path="res://sprites/button_score_normal.png" type="Texture" id=11]
+[ext_resource path="res://sprites/button_score_pressed.png" type="Texture" id=12]
 
 [sub_resource type="GDScript" id=1]
+resource_name = "cntr_gameover"
+script/source = "extends Container
+
+func _ready() -> void:
+	var bird = utils.get_main_node().get_node(\"bird\")
+	if bird:
+		bird.connect(\"hit\",self,\"gameover\")
+	pass
+func gameover():
+	var ani = $\"/root/utils\".get_main_node().find_node(\"animsprite\")
+	show()
+	ani.stop()
+	pass
+
+func _on_replyButton_pressed() -> void:
+	get_tree().reload_current_scene()
+	pass # Replace with function body.
+"
+
+[sub_resource type="DynamicFont" id=2]
+size = 12
+font_data = ExtResource( 8 )
+
+[sub_resource type="GDScript" id=3]
 script/source = "extends Label
 
 func _ready() -> void:
@@ -15,6 +46,9 @@ func _ready() -> void:
 func on_score_changed():
 	set_text(str(game.score))
 	pass"
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 8 )
 
 [node name="world" type="Node2D"]
 __meta__ = {
@@ -35,18 +69,74 @@ script = ExtResource( 3 )
 
 [node name="bird" parent="." instance=ExtResource( 4 )]
 position = Vector2( 36, 46.611 )
-gravity_scale = 2.0
+gravity_scale = 3.0
 
 [node name="spawner_pipe" parent="." instance=ExtResource( 5 )]
 
 [node name="hud" type="CanvasLayer" parent="."]
 
+[node name="cntr_gameover" type="Container" parent="hud"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+
+[node name="TextureRect" type="TextureRect" parent="hud/cntr_gameover"]
+margin_left = 24.0
+margin_top = 50.0
+margin_right = 120.0
+margin_bottom = 90.0
+texture = ExtResource( 6 )
+
+[node name="TextureRect2" type="TextureRect" parent="hud/cntr_gameover"]
+editor/display_folded = true
+margin_left = 16.97
+margin_top = 105.62
+margin_right = 129.97
+margin_bottom = 162.62
+texture = ExtResource( 7 )
+
+[node name="score2" type="Label" parent="hud/cntr_gameover/TextureRect2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 28.2231
+margin_top = -15.3079
+margin_right = 37.2231
+margin_bottom = 1.6921
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+valign = 1
+script = SubResource( 3 )
+
+[node name="replyButton" type="TextureButton" parent="hud/cntr_gameover"]
+margin_left = 19.0
+margin_top = 165.0
+margin_right = 71.0
+margin_bottom = 194.0
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 10 )
+
+[node name="TextureButton2" type="TextureButton" parent="hud/cntr_gameover"]
+margin_left = 73.6634
+margin_top = 164.469
+margin_right = 125.663
+margin_bottom = 193.469
+texture_normal = ExtResource( 11 )
+texture_pressed = ExtResource( 12 )
+
 [node name="score" type="Label" parent="hud"]
 anchor_right = 1.0
 margin_top = 10.0
 margin_bottom = 14.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "0"
 align = 1
 valign = 1
-script = SubResource( 1 )
+script = SubResource( 3 )
 [connection signal="body_exited" from="bird" to="bird" method="_on_body_exited"]
+[connection signal="pressed" from="hud/cntr_gameover/replyButton" to="hud/cntr_gameover" method="_on_replyButton_pressed"]
