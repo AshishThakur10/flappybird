@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://script/ground.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ground.png" type="Texture" id=2]
+[ext_resource path="res://scenes/area.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 84, 28 )
@@ -19,5 +20,12 @@ offset = Vector2( 0, -56 )
 position = Vector2( 168, 0 )
 
 [node name="shape" type="CollisionShape2D" parent="."]
+position = Vector2( 84.3875, -27.2788 )
+shape = SubResource( 1 )
+
+[node name="area" parent="." instance=ExtResource( 3 )]
+editor/display_folded = true
+
+[node name="shape2" type="CollisionShape2D" parent="area"]
 position = Vector2( 84.3875, -27.2788 )
 shape = SubResource( 1 )
