@@ -1,11 +1,12 @@
 extends Node
+signal score_changed
 
 const GROUP_BIRD ="bird"
+const GROUP_PIPE ="pipe"
+const GROUP_GROUND ="ground"
 
 var score = 0 setget _set_score
 var score_best = 0
-
-signal score_changed
 
 func _ready() -> void:
 	pass
